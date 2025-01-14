@@ -1,0 +1,32 @@
+<div>
+  <h1>{{ title }}</h1>
+
+  <!-- Form Group -->
+  <form #stockForm="ngForm" (ngSubmit)="getStock()" novalidate>
+    <input
+      type="text"
+      name="symbol"
+      [(ngModel)]="symbol"
+      #symbolInput="ngModel"
+      required
+      minlength="1"
+      maxlength="5"
+      placeholder="Enter Stock Symbol"
+    />
+    <button type="submit" [disabled]="stockForm.invalid">Get Stock</button>
+
+    <!-- Error Messages -->
+    <div *ngIf="symbolInput.invalid && (symbolInput.dirty || symbolInput.touched)">
+      <p *ngIf="symbolInput.errors?.['required']">Stock symbol is required.</p>
+      <p *ngIf="symbolInput.errors?.['minlength']">Symbol must be at least 1 character long.</p>
+      <p *ngIf="symbolInput.errors?.['maxlength']">Symbol cannot be more than 5 characters long.</p>
+    </div>
+  </form>
+
+  <!-- Stock Data Display -->
+  <div *ngIf="stockData">
+    <h2>Stock Data for {{ stockData.symbol }}</h2>
+    <p>Current Price: {{ stockData.currentPrice }}</p>
+    <p>Last Updated: {{ stockData.lastUpdated }}</p>
+  </div>
+</div>
